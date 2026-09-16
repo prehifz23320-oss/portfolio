@@ -1,0 +1,759 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #020308;
+    color: white;
+}
+
+
+/* =========================
+   LOADER
+========================= */
+
+#loader {
+    position: fixed;
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 160, 255, .12),
+            rgba(0,0,0,.55) 45%,
+            rgba(0,0,0,.85)
+        );
+
+    backdrop-filter:
+        blur(10px)
+        brightness(.6);
+
+    -webkit-backdrop-filter:
+        blur(10px)
+        brightness(.6);
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+}
+
+
+/* =========================
+   NOISE
+========================= */
+
+.noise {
+    position: absolute;
+    inset: -50%;
+
+    opacity: .04;
+
+    background-image:
+        url("data:image/svg+xml,\
+        <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'>\
+        <filter id='n'>\
+        <feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/>\
+        </filter>\
+        <rect width='100%' height='100%' filter='url(%23n)'/>\
+        </svg>");
+
+    animation: noiseMove .15s steps(2) infinite;
+}
+
+@keyframes noiseMove {
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(3%,-2%);
+    }
+
+    50% {
+        transform: translate(-2%,3%);
+    }
+
+    75% {
+        transform: translate(2%,2%);
+    }
+
+    100% {
+        transform: translate(-3%,-3%);
+    }
+}
+
+
+/* =========================
+   SCAN
+========================= */
+
+.scan {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            transparent 0%,
+            rgba(0,255,255,.04) 50%,
+            transparent 100%
+        );
+
+    height: 25%;
+
+    animation: scanner 3s linear infinite;
+}
+
+@keyframes scanner {
+
+    from {
+        transform: translateY(-150%);
+    }
+
+    to {
+        transform: translateY(500%);
+    }
+
+}
+
+
+/* =========================
+   HUD
+========================= */
+
+.hud {
+    width: min(700px, 90vw);
+    height: 560px;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+/* =========================
+   CORNERS
+========================= */
+
+.hud-corner {
+    position: absolute;
+
+    width: 65px;
+    height: 65px;
+
+    opacity: .8;
+}
+
+.hud-corner::before,
+.hud-corner::after {
+    content: "";
+
+    position: absolute;
+
+    background: cyan;
+
+    box-shadow: 0 0 10px cyan;
+}
+
+.hud-corner::before {
+    width: 65px;
+    height: 2px;
+}
+
+.hud-corner::after {
+    width: 2px;
+    height: 65px;
+}
+
+.c1 {
+    top: 0;
+    left: 0;
+}
+
+.c2 {
+    top: 0;
+    right: 0;
+    transform: rotate(90deg);
+}
+
+.c3 {
+    bottom: 0;
+    left: 0;
+    transform: rotate(-90deg);
+}
+
+.c4 {
+    bottom: 0;
+    right: 0;
+    transform: rotate(180deg);
+}
+
+
+/* =========================
+   TOP HUD
+========================= */
+
+.hud-top {
+    position: absolute;
+
+    top: 20px;
+
+    width: 80%;
+
+    display: flex;
+    justify-content: space-between;
+
+    font: 10px monospace;
+
+    letter-spacing: 4px;
+
+    color: rgba(0,255,255,.6);
+}
+
+
+/* =========================
+   REACTOR
+========================= */
+
+.reactor {
+    width: 310px;
+    height: 310px;
+
+    position: absolute;
+
+    top: 85px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    perspective: 1000px;
+
+    transform-style: preserve-3d;
+
+    transition: transform .15s ease-out;
+}
+
+
+/* =========================
+   RINGS
+========================= */
+
+.ring {
+    position: absolute;
+
+    border-radius: 50%;
+
+    border: 1px solid transparent;
+
+    transform-style: preserve-3d;
+}
+
+
+/* inner */
+
+.r1 {
+    width: 100px;
+    height: 100px;
+
+    border-top: 3px solid cyan;
+    border-bottom: 3px solid cyan;
+
+    box-shadow:
+        0 0 15px cyan,
+        inset 0 0 15px cyan;
+
+    animation: r1 1.5s linear infinite;
+}
+
+
+/* */
+
+.r2 {
+    width: 145px;
+    height: 145px;
+
+    border-left: 2px solid #00aaff;
+    border-right: 2px solid #0066ff;
+
+    animation: r2 2s linear infinite;
+}
+
+
+/* */
+
+.r3 {
+    width: 190px;
+    height: 190px;
+
+    border-top: 2px solid #bb00ff;
+    border-bottom: 2px solid #00ffff;
+
+    box-shadow: 0 0 20px #7000ff;
+
+    animation: r3 3s linear infinite;
+}
+
+
+/* */
+
+.r4 {
+    width: 240px;
+    height: 240px;
+
+    border-left: 1px solid white;
+    border-right: 1px solid transparent;
+
+    opacity: .4;
+
+    animation: r4 5s linear infinite;
+}
+
+
+/* */
+
+.r5 {
+    width: 290px;
+    height: 290px;
+
+    border-top: 1px dashed cyan;
+    border-bottom: 1px dashed cyan;
+
+    opacity: .25;
+
+    animation: r5 9s linear infinite;
+}
+
+
+/* =========================
+   RING ANIMATION
+========================= */
+
+@keyframes r1 {
+    to {
+        transform:
+            rotateX(70deg)
+            rotateZ(360deg);
+    }
+}
+
+@keyframes r2 {
+    to {
+        transform:
+            rotateY(70deg)
+            rotateZ(-360deg);
+    }
+}
+
+@keyframes r3 {
+    to {
+        transform:
+            rotateX(60deg)
+            rotateY(50deg)
+            rotateZ(360deg);
+    }
+}
+
+@keyframes r4 {
+    to {
+        transform:
+            rotateX(70deg)
+            rotateY(70deg)
+            rotateZ(-360deg);
+    }
+}
+
+@keyframes r5 {
+    to {
+        transform:
+            rotateX(50deg)
+            rotateY(60deg)
+            rotateZ(360deg);
+    }
+}
+
+
+/* =========================
+   CORE
+========================= */
+
+.core {
+    width: 70px;
+    height: 70px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            white 0%,
+            cyan 10%,
+            #008cff 25%,
+            #003cff 45%,
+            transparent 72%
+        );
+
+    box-shadow:
+        0 0 20px white,
+        0 0 50px cyan,
+        0 0 100px #008cff,
+        0 0 150px #0044ff;
+
+    animation:
+        core 1s ease-in-out infinite;
+
+    z-index: 10;
+}
+
+.core-inner {
+    position: absolute;
+
+    width: 15px;
+    height: 15px;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%,-50%);
+
+    background: white;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 20px white,
+        0 0 50px cyan;
+}
+
+@keyframes core {
+
+    0%,100% {
+        transform: scale(.7);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+
+/* =========================
+   ENERGY WAVES
+========================= */
+
+.energy-wave {
+    position: absolute;
+
+    width: 70px;
+    height: 70px;
+
+    border: 2px solid cyan;
+
+    border-radius: 50%;
+
+    opacity: 0;
+
+    animation: wave 2.5s ease-out infinite;
+}
+
+.wave2 {
+    animation-delay: .8s;
+}
+
+.wave3 {
+    animation-delay: 1.6s;
+}
+
+@keyframes wave {
+
+    0% {
+        transform: scale(.5);
+        opacity: .8;
+    }
+
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   LASER
+========================= */
+
+.laser {
+    position: absolute;
+
+    width: 2px;
+    height: 290px;
+
+    background:
+        linear-gradient(
+            transparent,
+            cyan,
+            transparent
+        );
+
+    box-shadow:
+        0 0 10px cyan;
+
+    animation: laser 1.8s linear infinite;
+}
+
+@keyframes laser {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================
+   SATELLITES
+========================= */
+
+.satellite {
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 10px cyan,
+        0 0 25px cyan;
+}
+
+.s1 {
+    animation: sat1 2s linear infinite;
+}
+
+.s2 {
+    animation: sat2 3.5s linear infinite;
+}
+
+.s3 {
+    animation: sat3 5s linear infinite;
+}
+
+@keyframes sat1 {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(100px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(100px);
+    }
+}
+
+@keyframes sat2 {
+
+    from {
+        transform:
+            rotate(120deg)
+            translateX(140px);
+    }
+
+    to {
+        transform:
+            rotate(-240deg)
+            translateX(140px);
+    }
+}
+
+@keyframes sat3 {
+
+    from {
+        transform:
+            rotate(220deg)
+            translateX(170px);
+    }
+
+    to {
+        transform:
+            rotate(-140deg)
+            translateX(170px);
+    }
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.system-title {
+    position: absolute;
+
+    top: 405px;
+
+    font: 11px monospace;
+
+    letter-spacing: 6px;
+
+    color: rgba(255,255,255,.6);
+}
+
+.system-title strong {
+    color: cyan;
+
+    text-shadow:
+        0 0 10px cyan;
+
+    animation: glitch 1.5s infinite;
+}
+
+@keyframes glitch {
+
+    0%,90%,100% {
+        transform: translate(0);
+    }
+
+    92% {
+        transform: translate(3px,-2px);
+    }
+
+    94% {
+        transform: translate(-3px,2px);
+    }
+
+}
+
+
+/* =========================
+   PERCENT
+========================= */
+
+.percentage {
+    position: absolute;
+
+    top: 435px;
+
+    font: 32px monospace;
+
+    letter-spacing: 5px;
+
+    text-shadow:
+        0 0 15px cyan;
+}
+
+.percentage small {
+    font-size: 13px;
+
+    color: cyan;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    position: absolute;
+
+    top: 480px;
+
+    font: 9px monospace;
+
+    letter-spacing: 3px;
+
+    color: rgba(255,255,255,.5);
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress {
+    position: absolute;
+
+    top: 505px;
+
+    width: 320px;
+
+    height: 3px;
+
+    background: rgba(255,255,255,.08);
+}
+
+#bar {
+    width: 0%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            cyan,
+            white
+        );
+
+    box-shadow:
+        0 0 15px cyan;
+
+    transition: width .05s linear;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    position: absolute;
+
+    bottom: 22px;
+
+    display: flex;
+
+    gap: 30px;
+
+    font: 8px monospace;
+
+    letter-spacing: 2px;
+
+    color: rgba(0,255,255,.5);
+}
+
+.stats b {
+    color: white;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px) {
+
+    .hud {
+        transform: scale(.7);
+    }
+
+}
